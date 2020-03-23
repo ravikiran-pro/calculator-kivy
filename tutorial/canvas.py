@@ -1,4 +1,11 @@
+
+# Program to explain how to creat drop-down in kivy  
+     
+# import kivy module     
 import kivy   
+       
+# base Class of your App inherits from the App class.     
+# app:always refers to the instance of your application    
 from kivy.app import App  
 kivy.require('1.9.0')  
 from kivy.uix.dropdown import DropDown 
