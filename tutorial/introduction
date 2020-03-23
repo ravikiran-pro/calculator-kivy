@@ -1,0 +1,16 @@
+import kivy 			///importing kivy
+kivy.require('1.10.0')	///minimum spec
+
+activating virtual env before compiling
+-----------------------------------------
+	$ python -m virtualenv ~/kivy_venv
+	$ source ~/kivy_venv/bin/activate
+
+
+note
+-----
+inheriting kivy App class is important
+from kivy.app import App
+	class Hello(App):
+
+def build():  # kivy class start methos
