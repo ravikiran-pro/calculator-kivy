@@ -1,0 +1,9 @@
+git clone https://github.com/kivy/buildozer.git
+cd buildozer
+sudo python setup.py install
+buildozer init
+
+dependencies
+------------
+sudo apt-get install zlib1g-dev
+pip install cython
