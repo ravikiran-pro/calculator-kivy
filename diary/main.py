@@ -24,7 +24,7 @@ class LoggedOn():
 	def __init__(self,master):
 		self.master=master
 		Window.clearcolor=(0,1,0,5)
-		
+
 class Application(App):
 	def build(self):
 		Window.clearcolor=(1,1,1,0)
@@ -32,7 +32,7 @@ class Application(App):
 		self.img = Image(source ='net.jpeg',size_hint=(None,None))
 		self.img.allow_stretch = True
 		self.img.opacity = 1
-		self.password=TextInput(multiline=False,size_hint=(None,None),font_size="16sp")
+		self.password=TextInput(text="Ravikiran@ms1",multiline=False,size_hint=(None,None),font_size="16sp")
 		self.loginbutton=Button(text="Unlock",size_hint=(None,None))
 		self.loginbutton.bind(on_press=self.login)
 		self.registerbutton=Button(text="Register",size_hint=(None,None))
@@ -54,7 +54,7 @@ class Application(App):
 		userentry=""
 		for i in passwordtext.fetchone():
 			userentry=i
-		if(userentry!=self.password.text):
+		if(userentry==self.password.text):
 			self.move.remove_widget(self.loginbutton)
 			self.move.remove_widget(self.img)
 			self.move.remove_widget(self.password)
