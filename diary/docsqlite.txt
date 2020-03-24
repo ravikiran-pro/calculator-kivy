@@ -1,0 +1,12 @@
+documentation for accessing connection in sqlite.py
+
+con=connection()
+con.createtable("pwmanager","name varchar(100),","age int")
+con.insertintotable("pwmanager","'ravi','23'","name,","age")
+con.insertintotable("pwmanager","'kiran','29'","name,","age")
+con.insertintotable("pwmanager","'preethi','22'","name,","age")
+size=con.size("pwmanager")
+print(size)
+values=con.getvalues("*","pwmanager")
+for i in values:
+	print(i)
