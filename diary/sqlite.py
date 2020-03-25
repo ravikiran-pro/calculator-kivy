@@ -3,23 +3,19 @@ class Connection():
 	def __init__(self):
 		self.conn=sqlite3.connect('diaryuserdata')
 		self.mycursor=self.conn.cursor()
-	def createtable(self,tbname,*data):
-		query="create table "+tbname+"( "
-		for i in data:
-			query+=i
-		query+=")"
+	def delete(self,query):
 		self.mycursor.execute(query)
 		self.conn.commit()
-	def insertintotable(self,tbname,values,*columnname):
-		query="insert into "+tbname+"("
-		for i in columnname:
-			query+=i
-		query+=")"
-		query+="values("+values+")"
+	def insertintotable(self,tbname,columnname,values):
+		query="insert into "+tbname+columnname+"values"+values
 		self.mycursor.execute(query)
 		self.conn.commit()
 	def getvalues(self,selector,tbname):
 		query="select "+selector+" from "+tbname
+		return self.mycursor.execute(query)
+	def getvaluesasc(self,selector,tbname):
+		query="select "+selector+" from "+tbname+" ORDER BY date Asc"
+		print(query)
 		return self.mycursor.execute(query)
 	def size(self,tbname):
 		datas=self.getvalues("*",tbname)
