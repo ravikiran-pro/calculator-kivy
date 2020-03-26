@@ -14,8 +14,7 @@ class Connection():
 		query="select "+selector+" from "+tbname
 		return self.mycursor.execute(query)
 	def getvaluesasc(self,selector,tbname):
-		query="select "+selector+" from "+tbname+" ORDER BY date Asc"
-		print(query)
+		query="select "+selector+" from "+tbname+" ORDER BY date Desc"
 		return self.mycursor.execute(query)
 	def size(self,tbname):
 		datas=self.getvalues("*",tbname)

@@ -15,7 +15,6 @@ from sqlite import Connection
 from datetime import date as today
 from kivy.uix.scrollview import ScrollView
 from kivy.app import runTouchApp
-from kivy.uix.pagelayout import PageLayout
 
 Config.set('graphics', 'resizable', True) 
 screenwidth=0
@@ -34,20 +33,22 @@ class Viewer():
 		self.addb=Button(text="ADD",pos=(WXY(2),HXY(450)),width=WXY(60),height=HXY(30),size_hint=(None,None),font_size=HXY(16))
 		self.addb.bind(on_press=self.adder)
 		self.master.add_widget(self.addb)
-		self.layout = GridLayout(cols=1, spacing=HXY(4), size_hint_y=None)
+		self.layout = GridLayout(cols=1, spacing=HXY(10), size_hint_y=None)
 		self.layout.bind(minimum_height=self.layout.setter('height'))
 		self.connection=Connection()
 		self.values=self.connection.getvaluesasc("date,content","diarydata")
 		self.lists=[]
 		index=0
 		for date,content in self.values:
-			self.lists.append(Button(text=content[:int(WXY(20))]+"-----"+str(date), size_hint_y=None, height=30,font_size=18,halign="left", valign="middle"))
+			label=Label(text=str(date))
+			self.lists.append(Button(text=content+"\n"+str(date), size_hint_y=None, height=HXY(250),font_size=HXY(18),halign="left", valign="middle"))
 			self.lists[index].bind(size=self.lists[index].setter('text_size'))
 			self.lists[index].bind(on_press=self.popuptriger)
+			self.layout.add_widget(label)
 			self.layout.add_widget(self.lists[index])
 			index+=1
 		self.connection.conn.close();
-		self.root = ScrollView(size=(WXY(310),HXY(440)),pos=(WXY(5),HXY(0)),size_hint=(None,None))
+		self.root = ScrollView(size=(WXY(310),HXY(440)),pos=(WXY(5),HXY(10)),size_hint=(None,None))
 		self.root.add_widget(self.layout)
 		self.master.add_widget(self.root)
 
@@ -82,16 +83,23 @@ class Viewer():
 		self.connection.delete(query)
 		self.connection.conn.commit()
 		self.userpriority.dismiss()
+		self.master.remove_widget(self.root)
+		self.master.remove_widget(self.addb)
+		self.viewer=Viewer(self.master)
 	def editviewer(self,event):
 		self.connection=Connection()
 		query="delete from diarydata where date='{}'".format(self.identity[-10:])
 		self.connection.delete(query)
 		self.connection.conn.commit()
 		self.userpriority.dismiss()
+		self.master.remove_widget(self.root)
+		self.master.remove_widget(self.addb)
 		self.viewer=Notepad(self.master,self.identity[:-10],self.identity[-10:])
 	def adder(self,event):
 		self.master.remove_widget(self.addb)
 		self.master.remove_widget(self.root)
+		self.master.remove_widget(self.root)
+		self.master.remove_widget(self.addb)
 		self.notepad=Notepad(self.master,"Empty your heart",today.today())
 		global choice 
 		choice=3
@@ -99,12 +107,12 @@ class Viewer():
 class Application(App):
 	def build(self):
 		Window.clearcolor=(1,1,1,0)
-		Window.size=(320,480)
+		#Window.size=(320,480)
 		self.connection=Connection()
 		self.img = Image(source ='net.jpeg',size_hint=(None,None))
 		self.img.allow_stretch = True
 		self.img.opacity = 1
-		self.password=TextInput(text="Ravikiran@ms1",multiline=False,size_hint=(None,None))
+		self.password=TextInput(text="password",multiline=False,size_hint=(None,None))
 		self.loginbutton=Button(text="Unlock",size_hint=(None,None))
 		self.loginbutton.bind(on_press=self.login)
 		self.registerbutton=Button(text="Register",size_hint=(None,None))
@@ -176,7 +184,7 @@ class Application(App):
 class Notepad():
 	def __init__(self,master,content,date):
 		self.master=master
-		self.datesetter=TextInput(text=str(date),pos=(WXY(5),HXY(440)),width=WXY(146),height=HXY(40),font_size=HXY(25),size_hint=(None,None))
+		self.datesetter=TextInput(text=str(date),pos=(WXY(5),HXY(440)),width=WXY(146),height=HXY(40),font_size=HXY(25),halign="left",size_hint=(None,None),multiline=False)
 		self.submit=Button(text="submit",pos=(WXY(174),HXY(440)),width=WXY(141),height=HXY(40),size_hint=(None,None),font_size=HXY(25))
 		self.submit.bind(on_press=self.popuptriger)
 		self.content=TextInput(text=content,pos=(WXY(5),HXY(5)),width=WXY(310),height=HXY(430),font_size=(HXY(18)),size_hint=(None,None))
@@ -225,6 +233,8 @@ class Notepad():
 		self.connection=Connection()
 		values="('{}','{}')".format(str(self.datesetter.text),str(self.content.text))
 		columnname="('{}','{}')".format("date","content")
+		query="delete from diarydata where date='{}'".format(self.datesetter.text)
+		self.connection.delete(query)
 		self.connection.insertintotable("diarydata",columnname,values)
 		self.connection.conn.close()
 		self.removelayout()
