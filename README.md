@@ -4,7 +4,7 @@ kivy is python library used to make multi-platform applications.
 My curiosity on doing android application made me try a short solution and landed on kivy.
 
 <i>This repo contains <i><br>
-            -  A simple calculator application to understand the basic block of kivy
+            -  A simple calculator application to understand the basic block of kivy <br>
             -  A offline diary made for android
             
 #### Directories
