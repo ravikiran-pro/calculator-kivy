@@ -4,13 +4,14 @@ kivy is python library used to make multi-platform applications.
 My curiosity on doing android application made me try a short solution and landed on kivy.
 
 This repo contains 
-            --  A simple calculator application to understand the basic block of kivy
-            --  A offline diary made for android
+            -  A simple calculator application to understand the basic block of kivy
+            -  A offline diary made for android
             
 #### Directories
-Diary           -- Files for diary applications
-Calculator      -- Calculator.py
-Tutorials       -- Contains tutorials for basic text,buttons,layout,scrollbar,views etc.
+- Diary           -- Files for diary applications
+- Calculator      -- Calculator.py
+- Tutorials       -- Contains tutorials for basic text,buttons,layout,scrollbar,views etc.
+- Buildozer       -- Module used to convert kivy to apk
 
 #### Prerequisite
           sudo apt-get install python-kivy
